@@ -18,21 +18,14 @@ class ViewController: UIViewController {
     // Lyrics Template
     var lTemplate = ["<FULL_NAME>,<FULL_NAME> MO M<SHORT_NAME>","SA RE GA MA S<SHORT_NAME>","MA GA SA R<SHORT_NAME>","<FULL_NAME>"].joined(separator: "\n")
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         nameField.delegate = self
         nameField.text?.removeAll()
         lyricsView.text.removeAll()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     // remove text in search box
     @IBAction func reset(_ sender: UITextField) {
         nameField.text?.removeAll()
@@ -41,8 +34,13 @@ class ViewController: UIViewController {
 
     // display result (lyrics)
     @IBAction func displayLyrics(_ sender: UITextField) {
-        print(lyricsView.text = lyricsForName(lTemplate, fullName: nameField.text!))
+        guard let name = nameField.text, !name.isEmpty else {
+            lyricsView.text = "Enter Your name"
+            return
+        }
+        lyricsView.text = lyricsForName(lTemplate, fullName: name)
     }
+    
     
     func shortFromName(_ name:String) -> String {
         let lowercaseName = name.lowercased()
